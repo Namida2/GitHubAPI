@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +21,12 @@ public class ErrorAlertDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.test);
-        builder.setView(View.inflate(getActivity(), R.layout.error_dialog, null));
+        View view = View.inflate(getActivity(), R.layout.error_dialog, null);
+        Button button = view.findViewById(R.id.ok);
+        button.setOnClickListener( v -> {
+            dismiss();
+        });
+        builder.setView(view);
         return builder.create();
     }
 
