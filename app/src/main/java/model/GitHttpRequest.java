@@ -3,6 +3,9 @@ package model;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+
+import com.example.testapi.ErrorAlertDialog;
 
 import org.json.JSONException;
 
@@ -12,7 +15,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+import presenters.RecyclerViewUtils;
 import presenters.UsersListUtils;
+
+import static com.example.testapi.MainActivity.adapter;
+import static com.example.testapi.MainActivity.fragmentManager;
 
 
 public class GitHttpRequest extends Thread {
@@ -20,26 +27,41 @@ public class GitHttpRequest extends Thread {
     private static String httpResponse;
     private final Activity activity;
     private static int lastPositionForLoadAvatar = 0;
+    private int responseCode;
 
     public GitHttpRequest(Context activity, URL url) {
         this.activity = (Activity) activity;
         GitHttpRequest.url = url;
     }
+
     @Override
     public void run() {
         try {
-            httpResponse = getGitUsers();
+            httpResponse = makeRequest();
             UsersListUtils.fillInUsersList(activity, httpResponse);
             UsersListUtils.loadAvatars(activity, lastPositionForLoadAvatar, GitUsers.getUsersList());
             lastPositionForLoadAvatar = GitUsers.getUsersList().size();
-            synchronized (this) {
-                notify();
+        } catch (IOException | JSONException ioException) {
+            if(responseCode == 403){
+                adapter.setLoadingVisibility(View.GONE, false);
+                if(!ErrorAlertDialog.isExist()) {
+                    ErrorAlertDialog dialog = ErrorAlertDialog.getNewInstance();
+                    activity.runOnUiThread(() -> {
+                        dialog.show(fragmentManager, "");
+                    });
+                }
             }
-        } catch (IOException | JSONException ioException) { }
+        }
+        synchronized (this) {
+            activity.runOnUiThread(() -> { adapter.setLoadingVisibility(View.GONE, true); });
+            notify();
+        }
     }
-    private static synchronized String getGitUsers () throws IOException {
+
+    private synchronized String makeRequest() throws IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        Log.d("myLogs", "Response = " + connection.getResponseCode());
+        responseCode = connection.getResponseCode();
+        Log.d("myLogs", "Response = " + responseCode);
         Scanner scanner;
         try {
             InputStream inputStream = connection.getInputStream();
@@ -50,9 +72,7 @@ public class GitHttpRequest extends Thread {
             connection.disconnect();
         }
     }
-
-    public static void resetLastPositionForLoadAvatar()
-    {
+    public static void resetLastPositionForLoadAvatar () {
         lastPositionForLoadAvatar = 0;
     }
 }

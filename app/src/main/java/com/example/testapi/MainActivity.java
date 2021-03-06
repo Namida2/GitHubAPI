@@ -27,7 +27,7 @@ import presenters.RecyclerViewUtils;
 public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
-    public static GitHttpRequest gitHttpRequest;
+    public static volatile GitHttpRequest gitHttpRequest;
     @SuppressLint("StaticFieldLeak")
     public static UsersRecyclerViewAdapter adapter;
     public static FragmentManager fragmentManager;
@@ -38,28 +38,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_activity);
+        setContentView(R.layout.activity_main);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.dialog_enter);
-        Button button = findViewById(R.id.btn);
-        button.setAnimation(animation);
-        button.setOnClickListener(v -> {
-            DialogFragment dialog = ErrorAlertDialog.getNewInstance();
-            dialog.show(getSupportFragmentManager(), "");
 
+        fragmentManager = getSupportFragmentManager();
+        floatingActionButton = findViewById(R.id.fba);
+        floatingActionButton.setOnClickListener(v -> {
+            adapter.setLoadingVisibility(View.GONE, false);
+            recyclerView.getLayoutManager().scrollToPosition(0);
+            Anim.Companion.hideView(floatingActionButton);
         });
-
-//        fragmentManager = getSupportFragmentManager();
-//        floatingActionButton = findViewById(R.id.fba);
-//        floatingActionButton.setOnClickListener(v -> {
-//            adapter.setLoadingVisibility(View.GONE, false);
-//            recyclerView.getLayoutManager().scrollToPosition(0);
-//            Anim.Companion.hideView(floatingActionButton);
-//        });
-//        recyclerView = findViewById(R.id.listRecyclerView);
-//        adapter = new UsersRecyclerViewAdapter(this, GitUsers.getUsersList());
-//        recyclerView.setAdapter(adapter);
-//        RecyclerViewUtils.prepareRecyclerView(recyclerView, adapter);
+        recyclerView = findViewById(R.id.listRecyclerView);
+        adapter = new UsersRecyclerViewAdapter(this, GitUsers.getUsersList());
+        recyclerView.setAdapter(adapter);
+        RecyclerViewUtils.prepareRecyclerView(recyclerView, adapter);
     }
 }
 

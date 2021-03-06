@@ -11,9 +11,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 public class ErrorAlertDialog extends DialogFragment {
+    private static boolean isExist = false;
 
-    public static ErrorAlertDialog getNewInstance () {
+    public static boolean isExist() {
+        return isExist;
+    }
+
+    public static synchronized ErrorAlertDialog getNewInstance () {
         ErrorAlertDialog errorAlertDialog = new ErrorAlertDialog();
+        errorAlertDialog.setCancelable(false);
+        isExist = true;
         return errorAlertDialog;
     }
 
@@ -25,6 +32,7 @@ public class ErrorAlertDialog extends DialogFragment {
         Button button = view.findViewById(R.id.ok);
         button.setOnClickListener( v -> {
             dismiss();
+            isExist = false;
         });
         builder.setView(view);
         return builder.create();

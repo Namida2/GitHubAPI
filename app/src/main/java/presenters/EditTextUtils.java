@@ -33,31 +33,30 @@ public class EditTextUtils {
         });
 
         editText.setOnKeyListener((v, keyCode, event) -> {
+            if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                if ((gitHttpRequest == null || !gitHttpRequest.isAlive())) {
+                    adapter.setLoadingVisibility(View.VISIBLE, false);
+                    GitHttpRequest.resetLastPositionForLoadAvatar();
+                    adapter.setUsersList(new ArrayList<>());
+                    adapter.notifyDataSetChanged();
+                    NetworkUtils.resetCurrentPage();
+                    gitHttpRequest = new GitHttpRequest(v.getContext(),
+                            NetworkUtils.getURL(
+                                editText.getText().toString(),
+                                NetworkUtils.getCurrentPage()));
+                    GitUsers.clearUsersList();
+                    hideKeyboard((Activity) v.getContext());
+                    gitHttpRequest.start();
+                } else
+                    Toast.makeText(v.getContext(), "Wait!", Toast.LENGTH_SHORT).show();
+            }
+
             if (keyCode == KeyEvent.KEYCODE_DEL) {
                 if (editText.getText().toString().length() > 1) {
                     editText.setText(editText.getText().toString().substring(0, editText.getText().length() - 1));
                 } else
                     editText.setText("");
                 editText.setSelection(editText.getText().toString().length());
-                return true;
-            }
-            if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                if ((gitHttpRequest == null || !gitHttpRequest.isAlive())) {
-
-                    adapter.setLoadingVisibility(View.VISIBLE, false);
-
-                    GitHttpRequest.resetLastPositionForLoadAvatar();
-                    adapter.setUsersList(new ArrayList<>());
-                    adapter.notifyDataSetChanged();
-                    NetworkUtils.resetCurrentPage();
-                    gitHttpRequest = new GitHttpRequest(v.getContext(),
-                            NetworkUtils.getURL(editText.getText().toString(),
-                                    NetworkUtils.getCurrentPage()));
-                    GitUsers.clearUsersList();
-                    hideKeyboard((Activity) v.getContext());
-                    gitHttpRequest.start();
-                } else
-                    Toast.makeText(v.getContext(), "Wait!", Toast.LENGTH_SHORT).show();
             }
             return true;
         });

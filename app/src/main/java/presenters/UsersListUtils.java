@@ -32,13 +32,13 @@ public class UsersListUtils {
                     object.getString("html_url")
             );
             GitUsers.addToListUsers(gitUser);
-            Log.d("myLogs", Integer.toString( GitUsers.getUsersList().size()));
+            Log.d("myLogs", "Size = " + Integer.toString( GitUsers.getUsersList().size()));
         }
         adapter.setUsersList(GitUsers.getUsersList());
     }
 
     public static synchronized void loadAvatars(Activity activity, int startIndex, List<GitUsers> usersList) throws IOException {
-        activity.runOnUiThread( () -> adapter.setLoadingVisibility(View.GONE, true));
+        activity.runOnUiThread(() -> adapter.setLoadingVisibility(View.GONE, true));
         for (int i = startIndex; i < usersList.size(); ++i) {
             URL avatarUrl = new URL(usersList.get(i).getUserAvatarURL());
             Bitmap bitmap = BitmapFactory.decodeStream(avatarUrl.openConnection().getInputStream());

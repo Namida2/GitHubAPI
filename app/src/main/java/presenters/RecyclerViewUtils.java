@@ -1,7 +1,5 @@
 package presenters;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,7 +14,6 @@ import static com.example.testapi.MainActivity.gitHttpRequest;
 
 
 public class RecyclerViewUtils {
-
     public static void prepareRecyclerView(RecyclerView recyclerView, UsersRecyclerViewAdapter adapter) {
         recyclerView.setRecyclerListener(holder -> {
             if(holder.getItemViewType() == 0 && adapter.getUsersList().size() > 0) {
@@ -27,19 +24,18 @@ public class RecyclerViewUtils {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(!recyclerView.canScrollVertically(1)) {
-                    Runnable waitForGitHttpRequest = () -> {
-                        synchronized (gitHttpRequest) {
-                            try {
-                                gitHttpRequest.wait();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            gitHttpRequest = new GitHttpRequest(recyclerView.getContext(), NetworkUtils.getUrlWithNewPage());
-                            gitHttpRequest.start();
+                Runnable waitForGitHttpRequest = () -> {
+                    synchronized (gitHttpRequest) {
+                        try {
+                            gitHttpRequest.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                    };
-
+                        gitHttpRequest = new GitHttpRequest(recyclerView.getContext(), NetworkUtils.getUrlWithNewPage());
+                        gitHttpRequest.start();
+                    }
+                };
+                if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
                     if (GitUsers.getUsersList().size() > 0 && gitHttpRequest.isAlive()) {
                         Thread thread = new Thread(waitForGitHttpRequest);
                         thread.start();
@@ -49,8 +45,7 @@ public class RecyclerViewUtils {
                         gitHttpRequest.start();
                     }
                 }
-                if (!recyclerView.canScrollVertically(-1))
-                {
+                if (!recyclerView.canScrollVertically(-1)) {
                     if(floatingActionButton.getAlpha() == 1) {
                         Anim.Companion.hideView(floatingActionButton);
                     }

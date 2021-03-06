@@ -48,6 +48,7 @@
         android:background="@android:color/darker_gray"/>
     <Button
         android:id="@+id/ok"
+        android:textSize="18sp"
         android:layout_below="@id/line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
