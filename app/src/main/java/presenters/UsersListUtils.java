@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
 
+import com.example.testapi.ErrorAlertDialog;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,12 +19,20 @@ import java.util.List;
 import model.GitUsers;
 
 import static com.example.testapi.MainActivity.adapter;
+import static com.example.testapi.MainActivity.fragmentManager;
 
 public class UsersListUtils {
 
     public static synchronized void fillInUsersList(Activity activity, String httpResponse) throws JSONException {
         JSONObject jsonHttpResponse = new JSONObject(httpResponse);
         JSONArray jsonGitUsers = jsonHttpResponse.getJSONArray("items");
+        if(jsonGitUsers.length() == 0) {
+            ErrorAlertDialog dialog = ErrorAlertDialog.getNewInstance(ErrorAlertDialog.RESPONSE_EMPTY);
+            activity.runOnUiThread(() -> {
+                dialog.show(fragmentManager, "");
+            });
+            return;
+        }
 
         for (int i = 0; i < jsonGitUsers.length(); ++i) {
             JSONObject object = jsonGitUsers.getJSONObject(i);

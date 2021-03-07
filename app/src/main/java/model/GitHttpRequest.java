@@ -45,7 +45,7 @@ public class GitHttpRequest extends Thread {
             if(responseCode == 403){
                 adapter.setLoadingVisibility(View.GONE, false);
                 if(!ErrorAlertDialog.isExist()) {
-                    ErrorAlertDialog dialog = ErrorAlertDialog.getNewInstance();
+                    ErrorAlertDialog dialog = ErrorAlertDialog.getNewInstance(ErrorAlertDialog.RESPONSE_403);
                     activity.runOnUiThread(() -> {
                         dialog.show(fragmentManager, "");
                     });
