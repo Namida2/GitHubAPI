@@ -37,7 +37,7 @@
             android:drawableEnd="@drawable/ic_search"
             android:elevation="8dp"
             android:fontFamily="@font/open_sans"
-            android:hint="Search Git-user"
+            android:hint="@string/search_git_user"
             android:inputType="text"
             android:maxLines="1"
             android:paddingStart="32dp"

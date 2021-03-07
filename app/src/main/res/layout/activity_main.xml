@@ -8,8 +8,7 @@
     android:scrollbars="none"
     android:id="@+id/mainNestedScrollView"
     >
-
-
+    
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listRecyclerView"
         android:clipToPadding="false"

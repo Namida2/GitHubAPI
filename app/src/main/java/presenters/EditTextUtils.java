@@ -41,9 +41,7 @@ public class EditTextUtils {
                     adapter.notifyDataSetChanged();
                     NetworkUtils.resetCurrentPage();
                     gitHttpRequest = new GitHttpRequest(v.getContext(),
-                            NetworkUtils.getURL(
-                                editText.getText().toString(),
-                                NetworkUtils.getCurrentPage()));
+                            NetworkUtils.getURL(editText.getText().toString()));
                     GitUsers.clearUsersList();
                     hideKeyboard((Activity) v.getContext());
                     gitHttpRequest.start();

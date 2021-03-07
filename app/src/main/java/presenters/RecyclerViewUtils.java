@@ -31,7 +31,7 @@ public class RecyclerViewUtils {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        gitHttpRequest = new GitHttpRequest(recyclerView.getContext(), NetworkUtils.getUrlWithNewPage());
+                        gitHttpRequest = new GitHttpRequest(recyclerView.getContext(), NetworkUtils.getURL(EditTextUtils.getCurrentText()));
                         gitHttpRequest.start();
                     }
                 };
@@ -41,7 +41,7 @@ public class RecyclerViewUtils {
                         thread.start();
                     }
                     else if (GitUsers.getUsersList().size() > 0) {
-                        gitHttpRequest = new GitHttpRequest(recyclerView.getContext(), NetworkUtils.getUrlWithNewPage());
+                        gitHttpRequest = new GitHttpRequest(recyclerView.getContext(), NetworkUtils.getURL(EditTextUtils.getCurrentText()));
                         gitHttpRequest.start();
                     }
                 }

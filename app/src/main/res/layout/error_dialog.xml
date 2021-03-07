@@ -19,7 +19,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/open_sans"
-            android:text="Oops! 403"
+            android:text="@string/response_403_title"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -28,7 +28,7 @@
             android:layout_below="@id/responseCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="This means that you have made so many requests to the server T^T. Please try again in a few minutes."
+            android:text="@string/response_403_text"
             android:textColor="@color/black"
             android:fontFamily="@font/open_sans"
             android:textSize="16sp"
@@ -53,5 +53,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_error_dialog_button"
-        android:text="OK"/>
+        android:text="@string/ok"/>
 </RelativeLayout>

@@ -16,37 +16,25 @@ public class NetworkUtils {
     private static final String PAGE = "page";
 
     private static int currentPage = 1;
-    private static String currentURL;
 
-    public static URL getURL(String name, int page) {
+    public static URL getURL(String name) {
         URL url = null;
+        Log.d("myLogs", "Current page = " + currentPage);
         Uri generateURI = Uri.parse(BASE_GITHUB_URL + SEARCH)
                 .buildUpon()
                 .appendQueryParameter(PARAM, name)
                 .appendQueryParameter(USER_AGENT, REQUEST)
-                .appendQueryParameter(PAGE, Integer.toString(page))
+                .appendQueryParameter(PAGE, Integer.toString(currentPage++))
                 .build();
-
         try {
             url = new URL(generateURI.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        currentURL = generateURI.toString();
+
         return url;
     }
 
-    public static URL getUrlWithNewPage()  {
-        currentURL = currentURL.substring(0, currentURL.length()-1) + (++currentPage);
-        Log.d("log", "Page = " + currentPage);
-        URL url = null;
-        try {
-            url = new URL (currentURL);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return url;
-    }
     public static void resetCurrentPage()
     {
         currentPage = 1;

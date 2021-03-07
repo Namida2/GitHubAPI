@@ -51,6 +51,14 @@ public class GitHttpRequest extends Thread {
                     });
                 }
             }
+            else if (responseCode != 422) {
+                if(!ErrorAlertDialog.isExist()) {
+                    ErrorAlertDialog dialog = ErrorAlertDialog.getNewInstance(ErrorAlertDialog.INTERNET_CONNECTION);
+                    activity.runOnUiThread(() -> {
+                        dialog.show(fragmentManager, "");
+                    });
+                }
+            }
         }
         synchronized (this) {
             activity.runOnUiThread(() -> { adapter.setLoadingVisibility(View.GONE, true); });
