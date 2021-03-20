@@ -19,10 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.testapi.Anim;
 import com.example.testapi.R;
 import com.example.testapi.MyBottomSheetDialog;
+import com.jakewharton.rxbinding4.widget.RxTextView;
 
+import java.security.Key;
 import java.util.List;
 import java.util.Objects;
 
+import io.reactivex.rxjava3.disposables.Disposable;
 import model.GitUsers;
 import presenters.EditTextUtils;
 
@@ -79,7 +82,9 @@ public class UsersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         public ViewHolderHead(@NonNull View itemView) {
             super(itemView);
             searchBar = itemView.findViewById(R.id.search);
-            EditTextUtils.eddTextSettings(searchBar);
+            Disposable dis = RxTextView.editorActionEvents(searchBar)
+                    .map(item -> item.getView().getText().toString())
+                    .subscribe(EditTextUtils::makeRequest);
         }
     }
 
@@ -127,8 +132,8 @@ public class UsersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
             case 0:
-                ((ViewHolderHead) holder).searchBar.setText(EditTextUtils.getCurrentText());
-                ((ViewHolderHead) holder).searchBar.setSelection(EditTextUtils.getCurrentText().length());
+                //((ViewHolderHead) holder).searchBar.setText(EditTextUtils.getCurrentText());
+                //((ViewHolderHead) holder).searchBar.setSelection(EditTextUtils.getCurrentText().length());
                 break;
             case 1:
                 Log.d("visibility", "visibility: " + loadingState);
@@ -162,8 +167,7 @@ public class UsersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         if (notify) this.notifyItemChanged(1);
     }
 
-    private void setOnClick (Button button, int position)
-    {
+    private void setOnClick (Button button, int position) {
         button.setOnClickListener(v -> {
             if(usersList.get(position).getUserAvatar() != null) {
                 MyBottomSheetDialog dialog = new MyBottomSheetDialog();

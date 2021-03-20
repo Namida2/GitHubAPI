@@ -23,7 +23,7 @@
             android:layout_centerHorizontal="true"
             android:translationZ="8dp"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <EditText
             android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             android:elevation="8dp"
             android:fontFamily="@font/open_sans"
             android:hint="@string/search_git_user"
-            android:inputType="text"
+            android:inputType="textAutoComplete"
             android:maxLines="1"
             android:paddingStart="32dp"
             android:paddingEnd="24dp"

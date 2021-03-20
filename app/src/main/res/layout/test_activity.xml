@@ -4,12 +4,27 @@
     android:layout_height="match_parent"
     android:id="@+id/container">
 
+    <EditText
+        android:id="@+id/a"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_search"
+        android:hint="text"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:fontFamily="@font/open_sans"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"/>
+
     <Button
-        android:id="@+id/btn"
+        android:id="@+id/click"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="500dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:text="Chow dialog"

@@ -20,37 +20,37 @@ public class RecyclerViewUtils {
                 Anim.Companion.showView(floatingActionButton);
             }
         });
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                Runnable waitForGitHttpRequest = () -> {
-                    synchronized (gitHttpRequest) {
-                        try {
-                            gitHttpRequest.wait();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        gitHttpRequest = new GitHttpRequest(recyclerView.getContext(), NetworkUtils.getURL(EditTextUtils.getCurrentText()));
-                        gitHttpRequest.start();
-                    }
-                };
-                if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (GitUsers.getUsersList().size() > 0 && gitHttpRequest.isAlive()) {
-                        Thread thread = new Thread(waitForGitHttpRequest);
-                        thread.start();
-                    }
-                    else if (GitUsers.getUsersList().size() > 0) {
-                        gitHttpRequest = new GitHttpRequest(recyclerView.getContext(), NetworkUtils.getURL(EditTextUtils.getCurrentText()));
-                        gitHttpRequest.start();
-                    }
-                }
-                if (!recyclerView.canScrollVertically(-1)) {
-                    if(floatingActionButton.getAlpha() == 1) {
-                        Anim.Companion.hideView(floatingActionButton);
-                    }
-                }
-            }
-        });
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                Runnable waitForGitHttpRequest = () -> {
+//                    synchronized (gitHttpRequest) {
+//                        try {
+//                            gitHttpRequest.wait();
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                        gitHttpRequest = new GitHttpRequest(recyclerView.getContext(), NetworkUtils.getURL(EditTextUtils.getCurrentText()));
+//                        gitHttpRequest.start();
+//                    }
+//                };
+//                if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                    if (GitUsers.getUsersList().size() > 0 && gitHttpRequest.isAlive()) {
+//                        Thread thread = new Thread(waitForGitHttpRequest);
+//                        thread.start();
+//                    }
+//                    else if (GitUsers.getUsersList().size() > 0) {
+//                        gitHttpRequest = new GitHttpRequest(recyclerView.getContext(), NetworkUtils.getURL(EditTextUtils.getCurrentText()));
+//                        gitHttpRequest.start();
+//                    }
+//                }
+//                if (!recyclerView.canScrollVertically(-1)) {
+//                    if(floatingActionButton.getAlpha() == 1) {
+//                        Anim.Companion.hideView(floatingActionButton);
+//                    }
+//                }
+//            }
+//        });
     }
 }
