@@ -15,6 +15,7 @@ public class ErrorAlertDialog extends DialogFragment {
     public static final int RESPONSE_403 = 0;
     public static final int RESPONSE_EMPTY = 1;
     public static final int INTERNET_CONNECTION = 2;
+    public static final int SSLHandshakeExceptionChainValidationFailed = 3;
     private static int dialogType;
     private static boolean isExist = false;
     public static boolean isExist() {
@@ -49,8 +50,11 @@ public class ErrorAlertDialog extends DialogFragment {
            case INTERNET_CONNECTION:
                title.setText(R.string.internet_connection_title);
                text.setText(R.string.internet_connection_text);
+               break;
+           case SSLHandshakeExceptionChainValidationFailed:
+               title.setText(R.string.SSLHandshakeExceptionChainValidationFailed_title);
+               text.setText(R.string.SSLHandshakeExceptionChainValidationFailed_text);
         }
-
         builder.setView(view);
         return builder.create();
     }

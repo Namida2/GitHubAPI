@@ -24,7 +24,7 @@ public class NetworkUtils {
                 .buildUpon()
                 .appendQueryParameter(PARAM, name)
                 .appendQueryParameter(USER_AGENT, REQUEST)
-                .appendQueryParameter(PAGE, Integer.toString(currentPage++))
+                .appendQueryParameter(PAGE, Integer.toString(currentPage))
                 .build();
         try {
             url = new URL(generateURI.toString());

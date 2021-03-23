@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,13 +29,18 @@ import org.reactivestreams.Subscription;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.BackpressureStrategy;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.FlowableSubscriber;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableEmitter;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
+import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.BiFunction;
 import io.reactivex.rxjava3.internal.observers.DisposableLambdaObserver;
@@ -57,6 +63,7 @@ public class MainActivity extends AppCompatActivity{
     public static RecyclerView recyclerView;
     public static FloatingActionButton floatingActionButton;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,13 +71,11 @@ public class MainActivity extends AppCompatActivity{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         recyclerView = findViewById(R.id.listRecyclerView);
-        adapter = new UsersRecyclerViewAdapter(this, GitUsers.getUsersList());
+        adapter = new UsersRecyclerViewAdapter(GitUsers.getUsersList());
         recyclerView.setAdapter(adapter);
         //RecyclerViewUtils.prepareRecyclerView(recyclerView, adapter);
+        fragmentManager = getSupportFragmentManager();
 
-        EditText editText = findViewById(R.id.search);
-
-//        fragmentManager = getSupportFragmentManager();
 //        floatingActionButton = findViewById(R.id.fba);
 //        floatingActionButton.setOnClickListener(v -> {
 //            adapter.setLoadingVisibility(View.GONE, false);

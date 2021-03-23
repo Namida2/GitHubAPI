@@ -36,34 +36,34 @@ public class GitHttpRequest extends Thread {
 
     @Override
     public void run() {
-        try {
-            httpResponse = makeRequest();
-            UsersListUtils.fillInUsersList(activity, httpResponse);
-            UsersListUtils.loadAvatars(activity, lastPositionForLoadAvatar, GitUsers.getUsersList());
-            lastPositionForLoadAvatar = GitUsers.getUsersList().size();
-        } catch (IOException | JSONException ioException) {
-            if(responseCode == 403){
-                adapter.setLoadingVisibility(View.GONE, false);
-                if(!ErrorAlertDialog.isExist()) {
-                    ErrorAlertDialog dialog = ErrorAlertDialog.getNewInstance(ErrorAlertDialog.RESPONSE_403);
-                    activity.runOnUiThread(() -> {
-                        dialog.show(fragmentManager, "");
-                    });
-                }
-            }
-            else if (responseCode != 422) {
-                if(!ErrorAlertDialog.isExist()) {
-                    ErrorAlertDialog dialog = ErrorAlertDialog.getNewInstance(ErrorAlertDialog.INTERNET_CONNECTION);
-                    activity.runOnUiThread(() -> {
-                        dialog.show(fragmentManager, "");
-                    });
-                }
-            }
-        }
-        synchronized (this) {
-            activity.runOnUiThread(() -> { adapter.setLoadingVisibility(View.GONE, true); });
-            notify();
-        }
+//        try {
+//            httpResponse = makeRequest();
+//            UsersListUtils.fillInUsersList(activity, httpResponse);
+//            UsersListUtils.loadAvatars(activity, lastPositionForLoadAvatar, GitUsers.getUsersList());
+//            lastPositionForLoadAvatar = GitUsers.getUsersList().size();
+//        } catch (IOException | JSONException ioException) {
+//            if(responseCode == 403){
+//                adapter.setLoadingVisibility(View.GONE, false);
+//                if(!ErrorAlertDialog.isExist()) {
+//                    ErrorAlertDialog dialog = ErrorAlertDialog.getNewInstance(ErrorAlertDialog.RESPONSE_403);
+//                    activity.runOnUiThread(() -> {
+//                        dialog.show(fragmentManager, "");
+//                    });
+//                }
+//            }
+//            else if (responseCode != 422) {
+//                if(!ErrorAlertDialog.isExist()) {
+//                    ErrorAlertDialog dialog = ErrorAlertDialog.getNewInstance(ErrorAlertDialog.INTERNET_CONNECTION);
+//                    activity.runOnUiThread(() -> {
+//                        dialog.show(fragmentManager, "");
+//                    });
+//                }
+//            }
+//        }
+//        synchronized (this) {
+//            activity.runOnUiThread(() -> { adapter.setLoadingVisibility(View.GONE, true); });
+//            notify();
+//        }
     }
 
     private synchronized String makeRequest() throws IOException {

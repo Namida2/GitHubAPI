@@ -29,23 +29,21 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import model.GitUsers;
 import presenters.EditTextUtils;
 
+import static com.example.testapi.MainActivity.adapter;
 import static com.example.testapi.MainActivity.fragmentManager;
 import static com.example.testapi.MainActivity.gitHttpRequest;
 import static com.example.testapi.MainActivity.recyclerView;
 
 public class UsersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final int ADDITIONAL_SIZE = 2;
+    public final int ADDITIONAL_SIZE = 2;
     private int loadingState = View.GONE;
 
     private List<GitUsers> usersList;
-    private Activity activity;
 
-    public UsersRecyclerViewAdapter(Activity activity, List<GitUsers> usersList) {
-        this.activity = activity;
+    public UsersRecyclerViewAdapter(List<GitUsers> usersList) {
         this.usersList = usersList;
     }
-
     @Override
     public long getItemId(int position) {
         return position;
@@ -67,9 +65,8 @@ public class UsersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         setLoadingVisibility(View.GONE, false);
         return 2;
     }
-    public void setAvatarForUser(Bitmap avatar, int position) {
-        usersList.get(position).setUserAvatar(avatar);
-    }
+
+    public void setAvatarForUser(Bitmap avatar, int position) { usersList.get(position).setUserAvatar(avatar); }
     public void setUsersList(List<GitUsers> usersList) {
         this.usersList = usersList;
     }
@@ -84,7 +81,9 @@ public class UsersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             searchBar = itemView.findViewById(R.id.search);
             Disposable dis = RxTextView.editorActionEvents(searchBar)
                     .map(item -> item.getView().getText().toString())
-                    .subscribe(EditTextUtils::makeRequest);
+                    .subscribe(text -> {
+                        if(!text.isEmpty()) EditTextUtils.makeRequest(text);
+                    });
         }
     }
 

@@ -3,10 +3,16 @@
 
     <string name="empty_result_title">Oops!</string>
     <string name="empty_result_text">Users not found.</string>
+
     <string name="internet_connection_title">Oops!</string>
     <string name="internet_connection_text">Please check your internet connection.</string>
+
     <string name="response_403_text">This means that you have made so many requests to the server. Please try again in a few minutes.</string>
     <string name="response_403_title">Oops! 403</string>
+
+    <string name="SSLHandshakeExceptionChainValidationFailed_text">Please check the correct date and time on your device.</string>
+    <string name="SSLHandshakeExceptionChainValidationFailed_title">Oops!</string>
+
     <string name="ok">OK</string>
     <string name="go_to_account">Go to account</string>
     <string name="go_to_search">Go to search</string>
